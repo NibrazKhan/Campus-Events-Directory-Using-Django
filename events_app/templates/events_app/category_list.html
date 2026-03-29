@@ -1,0 +1,32 @@
+{% extends "events_app/base.html" %}
+
+{% block title %}Categories{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h2>Event Categories</h2>
+        <p class="text-muted mb-0">Browse all the available event categories.</p>
+    </div>
+    <!-- Checking if the categories exist -->
+    {% if categories %}
+        <!-- Creates Bootstrap list group like a vertical card with small drop shadow for subtle effect-->
+        <div class="list-group shadow-sm">
+            {% for category in categories %}
+                <!-- list-group-item styles it as part of the list and list-group-item-action makes it highlight on hover -->
+                <a href="{% url 'category_events' category.id %}" class="list-group-item list-group-item-action">
+                    <!-- fw-bold means bold text -->
+                    <div class="fw-bold ">{{ category.name }}</div>
+                    {% if category.description %}
+                        <!-- If the category has a description, it appears below the name in muted gray text. -->
+                        <small class="text-muted">{{ category.description }}</small>
+                    {% endif %}
+                </a>
+            {% endfor %}
+        </div>
+    <!-- If the categories does not exist. -->    
+    {% else %}
+        <div class="alert alert-info">
+            No categories are available.
+        </div>
+    {% endif %}
+{% endblock %}

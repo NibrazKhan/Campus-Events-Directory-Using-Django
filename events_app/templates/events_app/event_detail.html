@@ -1,0 +1,24 @@
+{% extends "events_app/base.html" %}
+
+{% block title %}{{ event.title }}{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h2>{{ event.title }}</h2>
+        <p class="text-muted mb-0">Approved event details</p>
+    </div>
+    <!-- A card having small box-shadow to make componenents a bit lifted -->
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <p><strong>Description:</strong> {{ event.description }}</p>
+            <p><strong>Category:</strong> {{ event.category.name }}</p>
+            <p><strong>Location:</strong> {{ event.location }}</p>
+            <p><strong>Start:</strong> {{ event.start_datetime }}</p>
+            <p><strong>End:</strong> {{ event.end_datetime }}</p>
+            <p><strong>Contact Name:</strong> {{ event.contact_name }}</p>
+            <p><strong>Contact Email:</strong> {{ event.contact_email }}</p>
+            <!-- a hyper link button which has margin-top of 2 and looks for urlpatterns in view of event_list -->
+            <a href="{% url 'event_list' %}" class="btn btn-secondary mt-2">Back to Approved Events</a>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+         <!-- Required meta tags -->
+         <meta charset="utf-8">
+         <meta name = "viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+         <title> Campus Events Directory! </title>
+         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+         <style>
+            body{
+                background-color:  #f8f9fa;
+            }
+            .page-header{
+                margin-bottom: 1.5rem;
+            }
+            footer{
+                margin-top: 3rem;
+                padding: 1.5rem 0;
+                color: #6c757d;
+                text-align: center;
+            }
+         </style>
+    </head>
+    <body>
+        <!-- Navigation bar on large screens and hamburger menu on small screen having dark color schemes for text and icons and shade of blue background color -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <!-- {% url 'event_list' %} means look up the URL path associated with the URL name event_list in urls.py, evenif the URL endpoint is changed , it will still work. -->
+                <a class="navbar-brand fw-bold" href="{% url 'event_list' %}">Campus Events Portal</a>
+                <!-- toggle button data-bs-target refers to collapsible navbar -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+                    <!-- hamburger icon -->
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            <div class="collapse navbar-collapse" id="mainNavbar">
+                <!-- List of navigation links , ms-auto pushes menu items to the right side -->
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'event_list' %}">Approved Events</a>
+                    </li>
+                    <!-- Goes to the event submission Form -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'event_create' %}">Submit Event</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'category_list' %}">Categories</a>
+                    </li>
+                    <!-- Goes to Django Admin Site -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/">Admin</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Main class having top and bottom padding of 4(1.5 rem) -->
+    <main class="container py-4">
+        <!-- If there is any message , loop through messages, show it as alert, dismisses after hitting close button having a fading animation -->
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <!-- "x" button and closes the parent alert component after clicked -->
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <div class="container">
+            <!-- margin bottom of 0 with copyright symbol -->
+            <p class="mb-0">&copy; 2026 Campus Events Portal</p>
+        </div>
+    </footer>
+
+         <!-- Bootstrap Javascript -->
+         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    </body>
+</html>

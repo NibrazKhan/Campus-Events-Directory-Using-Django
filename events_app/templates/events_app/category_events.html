@@ -1,0 +1,50 @@
+{% extends "events_app/base.html" %}
+
+{% block title %}{{ category.name }} Events{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <!-- Approved events for specific category -->
+        <h2>Approved Events in {{ category.name }}</h2>
+        {% if category.description %}
+            <p class="text-muted mb-0">{{ category.description }}</p>
+        {% endif %}
+    </div>
+    <!-- If event exists -->
+    {% if events %}
+        <!-- g-4 denotes horizontal and vertical padding between the columns -->
+        <div class="row g-4">
+            {% for event in events %}
+                <div class="col-md-6">
+                    <!-- Consistent height -->
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h4 class="card-title">
+                                <!-- Link of the specific event-->
+                                <a href="{% url 'event_detail' event.id %}" class="text-decoration-none">
+                                    {{ event.title }}
+                                </a>
+                            </h4>
+                            <!-- Event description truncated to 25 chars -->
+                            <p class="card-text text-muted">{{ event.description|truncatewords:25 }}</p>
+                            <!-- Unstyled list having margin bottom 0f 0 -->
+                            <ul class="list-unstyled mb-0">
+                                <li><strong>Location:</strong> {{ event.location }}</li>
+                                <li><strong>Starts:</strong> {{ event.start_datetime }}</li>
+                                <li><strong>Ends:</strong> {{ event.end_datetime }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info">
+            No approved events are available in this category.
+        </div>
+    {% endif %}
+    <!-- Button to go back to the category-list page having margin-top of 4 .-->
+    <div class="mt-4">
+        <a href="{% url 'category_list' %}" class="btn btn-secondary">Back to Categories</a>
+    </div>
+{% endblock %}

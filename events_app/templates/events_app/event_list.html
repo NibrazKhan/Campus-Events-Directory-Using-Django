@@ -1,0 +1,57 @@
+{% extends "events_app/base.html" %}
+
+{% block title %}Approved Events{% endblock %}
+
+{% block content %}
+    <!-- turns the container into flex-box, pushes the left and right content apart and vertically centers them -->
+    <div class="page-header d-flex justify-content-between align-items-center">
+        <div>
+            <!-- small bottom margin with lighter gray text mb-0 removes extra spacing -->
+            <h2 class="mb-1">Approved Events</h2>
+            <p class="text-muted mb-0">Browse all publicly approved campus events.</p>
+        </div>
+        <!-- In the right side there will be primary button to create new events-->
+        <a href="{% url 'event_create' %}" class="btn btn-primary">Submit New Event</a>
+    </div>
+
+    {% if events %}
+        <!-- Gives a autoamtic gap of around 1.5 rem(24px) both horizontally and vertically between the columns -->
+        <div class="row g-4">
+            {% for event in events %}
+                <!-- Two cards per row having half the width on medium screens -->
+                <div class="col-md-6">
+                    <!-- bootstrap card having equal height of 100 and drop shadow look -->
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h4 class="card-title">
+                                <!-- Link to go to the specific event detail page -->
+                                <a href="{% url 'event_detail' event.id %}" class="text-decoration-none">
+                                    {{ event.title }}
+                                </a>
+                            </h4>
+                            <!-- Muted gray color text and description truncated to 25 chars -->
+                            <p class="card-text text-muted">{{ event.description|truncatewords:25 }}</p>
+                            <!-- unstyled list that has default list style(bullet points) removed and have margin bottom of zero -->
+                            <ul class="list-unstyled mb-0">
+                                <li><strong>Category:</strong> {{ event.category.name }}</li>
+                                <li><strong>Location:</strong> {{ event.location }}</li>
+                                <li><strong>Starts:</strong> {{ event.start_datetime }}</li>
+                                <li><strong>Ends:</strong> {{ event.end_datetime }}</li>
+                            </ul>
+                        </div>
+                        <!-- background white footer, removes the top border, removes the top padding, adds bottom padding , addsd left and right padding -->
+                        <div class="card-footer bg-white border-0 pt-0 pb-3 px-3">
+                            <!-- button with specific event details having id, having blue outline and a small button -->
+                            <a href="{% url 'event_detail' event.id %}" class="btn btn-outline-primary btn-sm">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    <!-- If there is no events available -->    
+    {% else %}
+        <div class="alert alert-info">
+            No approved events are available at the moment.
+        </div>
+    {% endif %}
+{% endblock %}

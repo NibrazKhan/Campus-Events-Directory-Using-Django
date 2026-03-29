@@ -1,0 +1,107 @@
+{% extends "events_app/base.html" %}
+
+{% block title %}Submit Event{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h2>Submit an Event</h2>
+        <p class="text-muted mb-0">
+            Please submit your event below. All event submissions will remain pending until approved by an admin.
+        </p>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <!-- Cross-Site Request Forgery(CSRF) token is implemented to prevent CSRF attacks while submitting forms.-->
+            <form method="post">
+                {% csrf_token %}
+                <!-- margin bottom of 3(1 rem)(16px) -->
+                <div class="mb-3">
+                    <!-- form-label: bootstrap styling for labels , for and id is for accessibility and usuability -->
+                    <label for="title" class="form-label">Title</label>
+                    <!-- form-control: bootstrap styling for inputs-->
+                    <!-- value used for pre-filling the field if the form was submitted with errors, and default is used to prevent errors if title does not exist-->
+                    <input type="text" name="title" id="title" class="form-control" value="{{ form_data.title|default:'' }}">
+                    <!-- If errors exist, display the message in red with a little margin top -->
+                    {% if errors.title %}
+                        <div class="text-danger mt-1">{{ errors.title }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <!-- rows=4 means, by default the textarea will be 4 medium height.-->
+                    <textarea name="description" id="description" rows="4" class="form-control">{{ form_data.description}}</textarea>
+                    {% if errors.description %}
+                        <div class="text-danger mt-1">{{ errors.description }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    <label for="location" class="form-label">Location</label>
+                    <input type="text" name="location" id="location" class="form-control" value="{{ form_data.location|default:'' }}">
+                    {% if errors.location %}
+                        <div class="text-danger mt-1">{{ errors.location }}</div>
+                    {% endif %}
+                </div>
+                <!-- start_datetime and end_datetime is in a row and two columns -->
+                <div class="row">
+                    <!-- Two columns made of medium 6(out of 12) with margin bottom of 3 -->
+                    <div class="col-md-6 mb-3">
+                        <label for="start_datetime" class="form-label">Start Date and Time</label>
+                        <!-- input type datetime-local allows users to enter date, time including year,month,day,hours, and minutes -->
+                        <input type="datetime-local" name="start_datetime" id="start_datetime" class="form-control" value="{{ form_data.start_datetime|default:'' }}">
+                        {% if errors.start_datetime %}
+                            <div class="text-danger mt-1">{{ errors.start_datetime }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label for="end_datetime" class="form-label">End Date and Time</label>
+                        <input type="datetime-local" name="end_datetime" id="end_datetime" class="form-control" value="{{ form_data.end_datetime|default:'' }}">
+                        {% if errors.end_datetime %}
+                            <div class="text-danger mt-1">{{ errors.end_datetime }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="category" class="form-label">Category</label>
+                    <!-- A dropodown of categories having form-select class for custom styling of the dropdown list to look consistent throught out the form -->
+                    <select name="category" id="category" class="form-select">
+                        <!-- Options in the dropdown -->
+                        <option value="">-- Select Category --</option>
+                        {% for category in categories %}
+                            <option value="{{ category.id }}">
+                                <!-- It is to make sure the previously selected dropdown option remain selected if there is any error encountered. stringformat converts to string.-->
+                                {% if form_data.category == category.id|stringformat:"s" %}selected{% endif %}>
+                                {{ category.name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                    {% if errors.category %}
+                        <div class="text-danger mt-1">{{ errors.category }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    <label for="contact_name" class="form-label">Contact Name</label>
+                    <input type="text" name="contact_name" id="contact_name" class="form-control" value="{{ form_data.contact_name|default:'' }}">
+                    {% if errors.contact_name %}
+                        <div class="text-danger mt-1">{{ errors.contact_name }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    <label for="contact_email" class="form-label">Contact Email</label>
+                    <input type="email" name="contact_email" id="contact_email" class="form-control" value="{{ form_data.contact_email|default:'' }}">
+                    {% if errors.contact_email %}
+                        <div class="text-danger mt-1">{{ errors.contact_email }}</div>
+                    {% endif %}
+                </div>
+                <!-- Button For Submitting the form -->
+                <button type="submit" class="btn btn-primary">Submit Event</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
